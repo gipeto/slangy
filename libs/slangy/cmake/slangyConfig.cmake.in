@@ -1,0 +1,8 @@
+@PACKAGE_INIT@
+
+set(slangCompilerCmakeDir "@PACKAGE_slangCompilerCMakeInstallDir@")
+
+include(CMakeFindDependencyMacro)
+find_dependency(slang)
+
+include(${CMAKE_CURRENT_LIST_DIR}/slangyTargets.cmake)
