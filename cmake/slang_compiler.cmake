@@ -18,7 +18,7 @@ function(SLANG_COMPILE)
 
      # .slang -> .slang-module
      add_custom_command(OUTPUT "${SLANG_MODULE}"
-                        COMMAND "${slang_COMPILER}"
+                        COMMAND "${SLANGC_EXECUTABLE}"
                         ARGS "${SLANG_SHADER}"
                              "-o"
                              "${SLANG_MODULE}"
