@@ -1,6 +1,0 @@
-{
-  "dependencies": [
-    "shader-slang",
-    "gtest"
-  ]
-}

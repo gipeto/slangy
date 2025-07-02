@@ -18,7 +18,7 @@ std::expected<com::ComPtr<::gfx::IDevice>, slangy::ErrorCode> makeDevice(const :
 {
     if (debugCall)
     {
-        ::gfx::gfxEnableDebugLayer();
+        ::gfx::gfxEnableDebugLayer(true);
         if (const auto result = ::gfx::gfxSetDebugCallback(debugCall); result < 0)
         {
             return utils::makeUnexpected(result);

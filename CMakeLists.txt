@@ -33,13 +33,8 @@ include(GenerateExportHeader)
 include(add_slang_target)
 
 option(BUILD_SHARED_LIBS "Build using shared libraries" OFF)
-option(FETCH_SLANG "Fetch slang from the upstream." OFF)
 option(BUILD_TESTS "Build the tests." ON)
 option(BUILD_EXAMPLES "Build the examples." ON)
-
-if(FETCH_SLANG)
-   include(fetchSlang)
-endif()
 
 find_package(slang REQUIRED QUIET)
 

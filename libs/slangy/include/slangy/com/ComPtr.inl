@@ -1,5 +1,7 @@
 #include <slangy/com/ComPtr.hpp>
 
+#include <cassert>
+
 namespace slangy::com
 {
 
