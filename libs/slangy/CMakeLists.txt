@@ -19,6 +19,7 @@ target_sources(slangy
            include/slangy/utils/DiagnosticLogger.hpp
            include/slangy/utils/results.hpp
            include/slangy/error.hpp
+           include/slangy/slangy.hpp
 )
 
 target_link_libraries(slangy INTERFACE slang::slang slang::gfx)
