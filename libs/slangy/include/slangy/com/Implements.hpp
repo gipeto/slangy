@@ -3,7 +3,7 @@
 #include <atomic>
 #include <slang.h>
 
-namespace slangy::com
+namespace slangy
 {
 
 template <typename Interface>
@@ -62,7 +62,8 @@ struct Base
 ///
 /// @endcode
 ///
-/// Adapted from the article @ref https://learn.microsoft.com/en-us/archive/msdn-magazine/2014/special-issue/c-visual-c-2015-brings-modern-c-to-the-windows-api
+/// Adapted from the article @ref
+/// https://learn.microsoft.com/en-us/archive/msdn-magazine/2014/special-issue/c-visual-c-2015-brings-modern-c-to-the-windows-api
 template <typename... Interfaces>
 class Implements : public Interfaces...
 {
@@ -84,6 +85,6 @@ protected:
     std::atomic<uint32_t> m_ref{1};
 };
 
-}  // namespace slangy::com
+}  // namespace slangy
 
 #include "Implements.inl"

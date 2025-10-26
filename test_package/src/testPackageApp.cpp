@@ -1,16 +1,15 @@
 
 #include <iostream>
-#include <slangy/api/api.hpp>
-#include <slangy/utils/results.hpp>
+#include <slangy/error_handling.hpp>
+#include <slangy/slangy.hpp>
 
 #include <test_shader.h>
 
 int main()
 {
-    using namespace slangy::api;
-    using namespace slangy::utils;
+    using namespace slangy;
 
-    if (auto globalSession = value_or_throw(makeGlobalSession))
+    if (auto globalSession = slangy::valueOrThrow(makeGlobalSession()))
     {
         std::cout << "[Success] Test package could create a global session and the compiled shader module is not empty"
                   << std::endl;

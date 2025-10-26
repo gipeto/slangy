@@ -1,6 +1,4 @@
 
-import "shader_lib";
-
 RWStructuredBuffer<int> outputBuffer;
 
 [shader("compute")]
@@ -8,5 +6,5 @@ RWStructuredBuffer<int> outputBuffer;
 void computeMain(uint3 dispatchThreadID : SV_DispatchThreadID)
 {
     int index = (int)dispatchThreadID.x;
-    outputBuffer[index] = outputBuffer[index] + foo(index);
+    outputBuffer[index] = outputBuffer[index] + 1;
 }

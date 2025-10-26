@@ -2,7 +2,7 @@
 
 #include <cassert>
 
-namespace slangy::com
+namespace slangy
 {
 
 template <typename Interface>
@@ -64,16 +64,28 @@ ComPtr<Interface>::operator bool() const noexcept
 }
 
 template <typename Interface>
-Interface** ComPtr<Interface>::getAddressOf() noexcept
+Interface** ComPtr<Interface>::put() noexcept
 {
     assert(m_ptr == nullptr);
     return &m_ptr;
 }
 
 template <typename Interface>
+void** ComPtr<Interface>::put_void() noexcept
+{
+    return reinterpret_cast<void**>(put());
+}
+
+template <typename Interface>
 NoAddRefRelease<Interface>* ComPtr<Interface>::operator->() const noexcept
 {
     return static_cast<NoAddRefRelease<Interface>*>(m_ptr);
+}
+
+template <typename Interface>
+Interface& ComPtr<Interface>::operator*() const noexcept
+{
+    return *m_ptr;
 }
 
 template <typename Interface>
@@ -109,7 +121,7 @@ template <typename T>
 ComPtr<T> ComPtr<Interface>::as() const noexcept
 {
     ComPtr<T> temp;
-    m_ptr->QueryInterface(temp.getAddressOf());
+    m_ptr->QueryInterface(temp.put());
     return temp;
 }
 
@@ -154,7 +166,7 @@ void ComPtr<Interface>::internalAddRef() const noexcept
 {
     if (m_ptr)
     {
-        m_ptr->addRef();
+        m_ptr->AddRef();
     }
 }
 
@@ -166,8 +178,8 @@ void ComPtr<Interface>::internalRelease() noexcept
     if (temp)
     {
         m_ptr = nullptr;
-        temp->release();
+        temp->Release();
     }
 }
 
-}  // namespace slangy::com
+}  // namespace slangy

@@ -7,7 +7,7 @@
 #include <stdexcept>
 #include <string>
 
-namespace slangy::utils
+namespace slangy
 {
 
 class DLog
@@ -30,7 +30,7 @@ public:
 
     slang::IBlob** operator()()
     {
-        return m_diagnosticBlob.getAddressOf();
+        return m_diagnosticBlob.put();
     }
 
     ~DLog()
@@ -45,7 +45,7 @@ public:
 
 private:
     std::function<void(std::string)> m_logFunction;
-    com::ComPtr<slang::IBlob> m_diagnosticBlob;
+    ComPtr<slang::IBlob> m_diagnosticBlob;
 };
 
-}  // namespace slangy::utils
+}  // namespace slangy

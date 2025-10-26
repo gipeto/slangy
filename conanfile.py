@@ -4,7 +4,7 @@ from conan.tools.cmake import CMakeToolchain, CMake, cmake_layout, CMakeDeps
 
 class slangyRecipe(ConanFile):
     name = "slangy"
-    version = "0.1.0"
+    version = "0.2.0"
     package_type = "library"
 
     # Optional metadata
@@ -19,14 +19,10 @@ class slangyRecipe(ConanFile):
     options = {
         "shared": [True, False],
         "fPIC": [True, False],
-        "build_tests": [True, False],
-        "build_examples": [True, False],
     }
     default_options = {
         "shared": False,
         "fPIC": True,
-        "build_tests": False,
-        "build_examples": False,
     }
 
     test_requires = "gtest/1.16.0"
@@ -56,12 +52,7 @@ class slangyRecipe(ConanFile):
 
     def build(self):
         cmake = CMake(self)
-        cmake.configure(
-            variables={
-                "BUILD_TESTS": self.options.build_tests,
-                "BUILD_EXAMPLES": self.options.build_examples,
-            }
-        )
+        cmake.configure()
         cmake.build()
 
     def package(self):

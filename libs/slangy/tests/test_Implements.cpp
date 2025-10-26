@@ -23,7 +23,7 @@ struct IAnotherTestImplements : public ISlangUnknown
     virtual int anotherValue() = 0;
 };
 
-struct ATestImplements : public com::Implements<ITestImplementsDerived, com::Base<ITestImplementsBase>>
+struct ATestImplements : public Implements<ITestImplementsDerived, Base<ITestImplementsBase>>
 {
     int baseValue() override
     {
@@ -36,7 +36,7 @@ struct ATestImplements : public com::Implements<ITestImplementsDerived, com::Bas
 };
 
 struct AnotherTestImplements
-      : public com::Implements<IAnotherTestImplements, com::Base<ITestImplementsBase>, ITestImplementsDerived>
+      : public Implements<IAnotherTestImplements, Base<ITestImplementsBase>, ITestImplementsDerived>
 {
     int baseValue() override
     {

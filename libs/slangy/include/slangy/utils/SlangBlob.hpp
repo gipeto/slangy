@@ -6,13 +6,14 @@
 
 #include <array>
 
-namespace slangy::impl
+namespace slangy
 {
 
-struct SlangIRBlob : public com::Implements<ISlangBlob>
+/// An in-memory implementation of a slang::IBlob
+struct SlangBlob : public Implements<slang::IBlob>
 {
     template <size_t N>
-    SlangIRBlob(const std::array<uint8_t, N>& blob)
+    SlangBlob(const std::array<uint8_t, N>& blob)
           : m_blob(blob.data())
           , m_size(blob.size()){};
 
@@ -30,4 +31,4 @@ struct SlangIRBlob : public com::Implements<ISlangBlob>
     size_t m_size{};
 };
 
-}  // namespace slangy::impl
+}  // namespace slangy
