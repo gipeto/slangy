@@ -1,9 +1,9 @@
-cmake_minimum_required(VERSION 3.25)
+cmake_minimum_required(VERSION 3.5)
 
 # Allows find_package to look for <UPPER_CASE>_ROOT variables
 cmake_policy(SET CMP0144 NEW)
 
-project(slangy VERSION 0.1.0 LANGUAGES C CXX)
+project(slangy VERSION 0.2.0 LANGUAGES C CXX)
 
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -33,12 +33,11 @@ include(GenerateExportHeader)
 include(add_slang_target)
 
 option(BUILD_SHARED_LIBS "Build using shared libraries" OFF)
-option(BUILD_TESTS "Build the tests." ON)
-option(BUILD_EXAMPLES "Build the examples." ON)
+option(BUILD_TESTING "Build the tests." ON)
 
 find_package(slang REQUIRED QUIET)
 
-if(BUILD_TESTS)
+if(BUILD_TESTING)
    find_package(GTest REQUIRED QUIET)
 endif()
 
@@ -50,6 +49,3 @@ install(FILES cmake/add_slang_target.cmake
 
 add_subdirectory(libs)
 
-if(BUILD_EXAMPLES)
-   add_subdirectory(examples)
-endif()

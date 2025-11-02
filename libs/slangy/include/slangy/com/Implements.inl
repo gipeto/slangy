@@ -2,7 +2,7 @@
 
 #include <cstring>
 
-namespace slangy::com
+namespace slangy
 {
 
 namespace detail
@@ -102,4 +102,4 @@ uint32_t Implements<Interfaces...>::release() noexcept
     return remaining;
 }
 
-}  // namespace slangy::com
+}  // namespace slangy

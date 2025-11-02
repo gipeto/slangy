@@ -2,6 +2,7 @@
 
 #include <slang.h>
 
+#include <expected>
 #include <string>
 #include <system_error>
 #include <type_traits>
@@ -27,6 +28,17 @@ enum class ErrorCode : int
     UnavailableFeature = SLANG_E_NOT_AVAILABLE,
     OperationTimeout = SLANG_E_TIME_OUT
 };
+
+struct SlangyError
+{
+    ErrorCode code;
+    std::string message;
+};
+
+template <typename T>
+using Expected = std::expected<T, SlangyError>;
+
+using Unexpected = std::unexpected<SlangyError>;
 
 namespace detail
 {
@@ -69,7 +81,8 @@ public:
         case ErrorCode::InternalFailure:
             return "An unhandled internal failure did occur.";
         case ErrorCode::UnavailableFeature:
-            return "The operation did not complete because some underlying hardware or software feature is missing.";
+            return "The operation did not complete because some underlying hardware or software feature is "
+                   "missing.";
         case ErrorCode::OperationTimeout:
             return "The operation did not complete because of a timeout.";
         }

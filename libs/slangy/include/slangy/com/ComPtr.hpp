@@ -3,15 +3,30 @@
 
 #include <slang.h>
 
-namespace slangy::com
+#include <type_traits>
+
+namespace slangy
 {
 
 template <typename T>
-class NoAddRefRelease : public T
+class NoAddRefReleaseSlang : public T
 {
     uint32_t SLANG_MCALL addRef() noexcept override;
     uint32_t SLANG_MCALL release() noexcept override;
+    uint32_t AddRef() = delete;
+    uint32_t Release() = delete;
 };
+
+template <typename T>
+class NoAddRefReleaseCom : public T
+{
+    unsigned long SLANG_MCALL AddRef() noexcept override;
+    unsigned long SLANG_MCALL Release() noexcept override;
+};
+
+template <typename T>
+using NoAddRefRelease =
+    std::conditional_t<std::is_base_of_v<ISlangUnknown, T>, NoAddRefReleaseSlang<T>, NoAddRefReleaseCom<T>>;
 
 /// COM smart pointer adapted from
 /// https://github.com/kennykerr/modern/blob/3f88e52801146513df804acf55870ad34b13a2bd/10.0.10240.complete/modern/comptr.h
@@ -38,6 +53,8 @@ public:
 
     ~ComPtr() noexcept;
 
+    explicit operator bool() const noexcept;
+
     ComPtr& operator=(const ComPtr& other) noexcept;
 
     template <typename U>
@@ -46,22 +63,24 @@ public:
     template <typename U>
     ComPtr& operator=(ComPtr<U>&& other) noexcept;
 
-    explicit operator bool() const noexcept;
-
-    Interface** getAddressOf() noexcept;
-
-    NoAddRefRelease<Interface>* operator->() const noexcept;
-
-    Interface* get() const noexcept;
-
-    void attach(Interface* value) noexcept;
-
-    Interface* detach() noexcept;
-
     ComPtr& operator=(std::nullptr_t) noexcept;
 
     template <typename T>
     ComPtr<T> as() const noexcept;
+
+    NoAddRefRelease<Interface>* operator->() const noexcept;
+
+    Interface& operator*() const noexcept;
+
+    Interface* get() const noexcept;
+
+    Interface** put() noexcept;
+
+    void** put_void() noexcept;
+
+    void attach(Interface* value) noexcept;
+
+    Interface* detach() noexcept;
 
     void copyFrom(Interface* other) noexcept;
 
@@ -127,6 +146,6 @@ bool operator>=(ComPtr<T> const& left, ComPtr<T> const& right) noexcept
     return !(left < right);
 }
 
-}  // namespace slangy::com
+}  // namespace slangy
 
 #include "ComPtr.inl"
