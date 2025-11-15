@@ -47,10 +47,6 @@ Expected<std::vector<std::vector<std::byte>>> buildShaderProgram(const slang::Se
         return Unexpected(std::move(result.error()));
     }
 
-    // This addref is incorrect and will leak memory but prevents a runtime failure when the session goes out of scope.
-    // TODO: investigate failure releasing session.
-    session.get()->AddRef();
-
     std::vector<ComPtr<slang::IBlob>> blobs;
     (blobs.push_back(makeFromImpl<slang::IBlob, SlangBlob>(std::forward<PreCompiledModule>(precompiledModules))), ...);
 
@@ -62,7 +58,9 @@ Expected<std::vector<std::vector<std::byte>>> buildShaderProgram(const slang::Se
     {
         std::string moduleName = name + std::to_string(i);
         std::string logPrefix = std::string("Load module ") + moduleName;
-        modules[i].attach(
+        // The interface pointer returned by session->loadModuleFromIRBlob is not AddRef, hece the usage
+        // of copyFrom instead of attach to initialize the modules
+        modules[i].copyFrom(
             session->loadModuleFromIRBlob(moduleName.c_str(), "", blobs[i].get(), DLog(std::move(logPrefix))()));
 
         if (!modules[i])
