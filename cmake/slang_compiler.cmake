@@ -24,7 +24,7 @@ function(SLANG_COMPILE)
                              "${SLANG_MODULE}"
                         COMMENT "Compile slang shader from file '${SLANG_SHADER}' to '${SLANG_MODULE}'.")
 
-     # .spv -> .hpp
+     # .slang-module -> .hpp
       add_custom_command(OUTPUT "${SLANG_MODULE_HEADER}"
                         COMMAND ${CMAKE_COMMAND}
                         ARGS "-DINPUT_SHADER_FILE=${SLANG_MODULE}"

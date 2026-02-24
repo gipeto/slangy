@@ -20,7 +20,7 @@ int main()
         return -1;
     }
 
-    if (!shaders::TEST_SHADER_SLANG_MODULE.empty())
+    if (!shaders::TEST_SHADER_SLANG_MODULE::blob.empty())
     {
         std::cout << "[Success] The pre-compiled test shader module is not empty" << std::endl;
         return 0;

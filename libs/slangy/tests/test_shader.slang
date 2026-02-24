@@ -1,3 +1,4 @@
+import "test_lib";
 
 RWStructuredBuffer<int> outputBuffer;
 
@@ -6,5 +7,5 @@ RWStructuredBuffer<int> outputBuffer;
 void computeMain(uint3 dispatchThreadID : SV_DispatchThreadID)
 {
     int index = (int)dispatchThreadID.x;
-    outputBuffer[index] = outputBuffer[index] + 1;
+    outputBuffer[index] = outputBuffer[index] + foo(index);;
 }

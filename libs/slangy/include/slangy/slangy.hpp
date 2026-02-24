@@ -23,17 +23,15 @@ Expected<ComPtr<slang::ISession>> makeSession(const ComPtr<slang::IGlobalSession
                                               const slang::SessionDesc& sessionDescription);
 
 /// Compiles pre-compiled modules into a shader program binary for each target defined in \p sessionDescription
+/// @tparam PreCompiledModule pre-compiled modules to link for creating the program
 /// @param sessionDescription the slang session configuration parameters
 /// @param globalSession the global session used for compilation
-/// @param name name for the compiled program
-/// @param entryPointName the name of program entry poin
-/// @param precompiledModules the pre-compiled modules to link for creating the program
+/// @param entryPointName the name of program entry point
 /// @return a compiled shader program for each target defined in \p sessionDescription
 template <typename... PreCompiledModule>
 Expected<std::vector<std::vector<std::byte>>> buildShaderProgram(const slang::SessionDesc& sessionDescription,
                                                                  const ComPtr<slang::IGlobalSession>& globalSession,
-                                                                 std::string name, std::string entryPointName,
-                                                                 PreCompiledModule&&... precompiledModules);
+                                                                 std::string entryPointName);
 
 }  // namespace slangy
 

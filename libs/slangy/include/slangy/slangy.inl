@@ -34,8 +34,7 @@ inline Expected<ComPtr<slang::ISession>> makeSession(const ComPtr<slang::IGlobal
 template <typename... PreCompiledModule>
 Expected<std::vector<std::vector<std::byte>>> buildShaderProgram(const slang::SessionDesc& sessionDescription,
                                                                  const ComPtr<slang::IGlobalSession>& globalSession,
-                                                                 std::string name, std::string entryPointName,
-                                                                 PreCompiledModule&&... precompiledModules)
+                                                                 std::string entryPointName)
 {
     ComPtr<slang::ISession> session;
     if (auto result = makeSession(globalSession, sessionDescription))
@@ -48,7 +47,10 @@ Expected<std::vector<std::vector<std::byte>>> buildShaderProgram(const slang::Se
     }
 
     std::vector<ComPtr<slang::IBlob>> blobs;
-    (blobs.push_back(makeFromImpl<slang::IBlob, SlangBlob>(std::forward<PreCompiledModule>(precompiledModules))), ...);
+    (blobs.push_back(makeFromImpl<slang::IBlob, SlangBlob>(PreCompiledModule::blob)), ...);
+
+    std::vector<std::string> moduleNames;
+    (moduleNames.push_back(PreCompiledModule::name), ...);
 
     std::vector<ComPtr<slang::IModule>> modules(blobs.size());
     std::vector<slang::IComponentType*> componentTypes;
@@ -56,7 +58,7 @@ Expected<std::vector<std::vector<std::byte>>> buildShaderProgram(const slang::Se
 
     for (size_t i = 0; i < blobs.size(); ++i)
     {
-        std::string moduleName = name + std::to_string(i);
+        const std::string& moduleName = moduleNames[i];
         std::string logPrefix = std::string("Load module ") + moduleName;
         // The interface pointer returned by session->loadModuleFromIRBlob is not AddRef, hece the usage
         // of copyFrom instead of attach to initialize the modules

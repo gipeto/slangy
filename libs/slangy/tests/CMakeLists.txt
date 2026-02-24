@@ -1,4 +1,4 @@
-add_slang_target(computeMain FILES test_shader.slang NAMESPACE test_shader)
+add_slang_target(computeMain FILES test_shader.slang test_lib.slang NAMESPACE test_shader)
 
 add_executable(test_slangy test_runner.cpp
                            test_build_api.cpp
