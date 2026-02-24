@@ -61,6 +61,7 @@ function(BIN2H)
     set(oneValueArgs SOURCE_FILE VARIABLE_NAME HEADER_FILE)
     cmake_parse_arguments(BIN2H "${options}" "${oneValueArgs}" "" ${ARGN})
 
+
     # reads source file contents as hex string
     file(READ ${BIN2H_SOURCE_FILE} hexString HEX)
     string(LENGTH ${hexString} hexStringLength)
@@ -83,13 +84,18 @@ function(BIN2H)
     string(MAKE_C_IDENTIFIER "${BIN2H_VARIABLE_NAME}" BIN2H_VARIABLE_NAME)
     string(TOUPPER "${BIN2H_VARIABLE_NAME}" BIN2H_VARIABLE_NAME)
 
+    cmake_path(GET BIN2H_SOURCE_FILE STEM moduleName)
+
     # declares byte array and the length variables
     set(namespaceStart "namespace ${HEADER_NAMESPACE} {")
     set(namespaceEnd "} // namespace ${HEADER_NAMESPACE}")
     set(arrayIncludes "#pragma once\n#include <array>\n#include <cstdint>")
-    set(arrayDefinition "constexpr std::array<uint8_t, ${arraySize}> ${BIN2H_VARIABLE_NAME} = { ${arrayValues} };")
+    set(structBegin "struct ${BIN2H_VARIABLE_NAME} {")
+    set(structEnd "};")
+    set(nameDefinition "static constexpr char name [] = \"${moduleName}\";")
+    set(blobDefinition "static constexpr std::array<uint8_t, ${arraySize}> blob = { ${arrayValues} };")
 
-    set(declarations "${arrayIncludes}\n\n${namespaceStart}\n${arrayDefinition}\n${namespaceEnd}\n\n")
+    set(declarations "${arrayIncludes}\n\n${namespaceStart}\n${structBegin}\n${nameDefinition}\n${blobDefinition}\n${structEnd}\n${namespaceEnd}\n\n")
     if(BIN2H_APPEND)
         file(APPEND ${BIN2H_HEADER_FILE} "${declarations}")
     else()

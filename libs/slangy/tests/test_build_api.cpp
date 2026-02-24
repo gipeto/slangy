@@ -3,6 +3,7 @@
 #include <slangy/slangy.hpp>
 
 #include <test_shader.h>
+#include <test_lib.h>
 
 using namespace ::testing;
 using namespace slangy;
@@ -27,7 +28,7 @@ TEST(ABuildShader, buildShaderProgram)
     ASSERT_TRUE(maybeSession);
 
     auto maybeProgram =
-        buildShaderProgram(sd, *maybeSession, "test", "computeMain", test_shader::TEST_SHADER_SLANG_MODULE);
+        buildShaderProgram<test_shader::TEST_SHADER_SLANG_MODULE,test_shader::TEST_LIB_SLANG_MODULE>(sd, *maybeSession, "computeMain");
     ASSERT_TRUE(maybeProgram);
     ASSERT_THAT(maybeProgram.value().size(), Gt(0));
 }

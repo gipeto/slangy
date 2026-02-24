@@ -4,7 +4,7 @@ from conan.tools.cmake import CMakeToolchain, CMake, cmake_layout, CMakeDeps
 
 class slangyRecipe(ConanFile):
     name = "slangy"
-    version = "0.2.0"
+    version = "0.3.0"
     package_type = "library"
 
     # Optional metadata
